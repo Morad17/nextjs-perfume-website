@@ -1,0 +1,85 @@
+@use 'variables' as *;
+
+@mixin container {
+  max-width: $max-width-content;
+  margin: 0 auto;
+  padding: 0 $sp-6;
+
+  @media (max-width: $bp-md) {
+    padding: 0 $sp-4;
+  }
+}
+
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@mixin gold-gradient {
+  background: linear-gradient(135deg, $color-gold-dark, $color-gold, $color-gold-light);
+}
+
+@mixin text-gold-gradient {
+  background: linear-gradient(135deg, $color-gold-dark, $color-gold, $color-gold-light);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+@mixin glass-bg {
+  background: rgba(250, 247, 242, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: $border-cream;
+}
+
+@mixin hover-lift {
+  transition: transform $transition-luxury, box-shadow $transition-luxury;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: $shadow-md;
+  }
+}
+
+@mixin responsive($bp) {
+  @if $bp == sm {
+    @media (max-width: $bp-sm) { @content; }
+  } @else if $bp == md {
+    @media (max-width: $bp-md) { @content; }
+  } @else if $bp == lg {
+    @media (max-width: $bp-lg) { @content; }
+  } @else if $bp == xl {
+    @media (max-width: $bp-xl) { @content; }
+  }
+}
+
+@mixin section-padding {
+  padding: $sp-24 0;
+
+  @include responsive(md) {
+    padding: $sp-16 0;
+  }
+}
+
+@mixin heading-serif {
+  font-family: $font-serif;
+  font-weight: $fw-light;
+  letter-spacing: $ls-tight;
+  line-height: 1.1;
+}
+
+@mixin label-caps {
+  font-family: $font-sans;
+  font-size: $fs-xs;
+  font-weight: $fw-semibold;
+  letter-spacing: $ls-widest;
+  text-transform: uppercase;
+}
