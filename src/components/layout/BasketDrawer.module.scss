@@ -1,0 +1,218 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+// ── Backdrop ───────────────────────────────────────────────────────────────
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(26, 24, 20, 0.4);
+  z-index: $z-drawer - 1;
+  cursor: pointer;
+}
+
+// ── Panel ──────────────────────────────────────────────────────────────────
+.panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: min(420px, 100vw);
+  background: $color-cream;
+  z-index: $z-drawer;
+  display: flex;
+  flex-direction: column;
+  box-shadow: -4px 0 40px rgba(26, 24, 20, 0.12);
+}
+
+// ── Header ─────────────────────────────────────────────────────────────────
+.header {
+  @include flex-between;
+  padding: $sp-6 $sp-6 $sp-5;
+  border-bottom: 1px solid $color-cream-deep;
+  flex-shrink: 0;
+}
+
+.headerLeft {
+  display: flex;
+  align-items: baseline;
+  gap: $sp-3;
+}
+
+.title {
+  font-family: $font-serif;
+  font-size: $fs-lg;
+  font-weight: $fw-light;
+  color: $color-ink;
+}
+
+.count {
+  font-family: $font-sans;
+  font-size: $fs-xs;
+  color: $color-ink-muted;
+}
+
+.closeBtn {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: $fs-xl;
+  font-weight: $fw-light;
+  color: $color-ink-muted;
+  border-radius: $radius-sm;
+  transition: color $transition-base, background $transition-base;
+  line-height: 1;
+
+  &:hover {
+    color: $color-ink;
+    background: $color-cream-alt;
+  }
+}
+
+// ── Body ───────────────────────────────────────────────────────────────────
+.body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0 $sp-6;
+
+  // Custom scrollbar inside the drawer
+  &::-webkit-scrollbar { width: 4px; }
+  &::-webkit-scrollbar-track { background: transparent; }
+  &::-webkit-scrollbar-thumb { background: $color-cream-deep; border-radius: $radius-full; }
+}
+
+.itemList {
+  // layout animation container
+}
+
+// ── Empty state ────────────────────────────────────────────────────────────
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: $sp-16 $sp-8;
+  gap: $sp-4;
+}
+
+.emptyIcon {
+  font-size: 3rem;
+  color: $color-cream-deep;
+  line-height: 1;
+}
+
+.emptyTitle {
+  font-family: $font-serif;
+  font-size: $fs-lg;
+  font-weight: $fw-light;
+  color: $color-ink;
+}
+
+.emptySubtitle {
+  font-family: $font-sans;
+  font-size: $fs-sm;
+  color: $color-ink-muted;
+  line-height: 1.6;
+  max-width: 28ch;
+}
+
+.shopLink {
+  @include label-caps;
+  color: $color-gold;
+  margin-top: $sp-2;
+  transition: color $transition-base;
+
+  &:hover {
+    color: $color-gold-dark;
+  }
+}
+
+// ── Footer ─────────────────────────────────────────────────────────────────
+.footer {
+  padding: $sp-5 $sp-6 $sp-8;
+  border-top: 1px solid $color-cream-deep;
+  display: flex;
+  flex-direction: column;
+  gap: $sp-3;
+  flex-shrink: 0;
+}
+
+.subtotal {
+  @include flex-between;
+  align-items: baseline;
+}
+
+.subtotalLabel {
+  font-family: $font-sans;
+  font-size: $fs-sm;
+  font-weight: $fw-medium;
+  color: $color-ink-muted;
+  text-transform: uppercase;
+  letter-spacing: $ls-wider;
+}
+
+.subtotalPrice {
+  font-family: $font-serif;
+  font-size: $fs-xl;
+  font-weight: $fw-light;
+  color: $color-ink;
+}
+
+.shippingNote {
+  font-family: $font-sans;
+  font-size: $fs-xs;
+  color: $color-ink-muted;
+  text-align: center;
+}
+
+.checkoutBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 52px;
+  background: $color-ink;
+  color: $color-white;
+  font-family: $font-sans;
+  font-size: $fs-sm;
+  font-weight: $fw-semibold;
+  letter-spacing: $ls-wider;
+  text-transform: uppercase;
+  border-radius: $radius-sm;
+  position: relative;
+  overflow: hidden;
+  transition: background $transition-luxury;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.07), transparent);
+    transform: translateX(-100%);
+    transition: transform 0.6s ease;
+  }
+
+  &:hover {
+    background: $color-gold-dark;
+
+    &::after {
+      transform: translateX(100%);
+    }
+  }
+}
+
+.continueBtn {
+  font-family: $font-sans;
+  font-size: $fs-xs;
+  font-weight: $fw-medium;
+  color: $color-ink-muted;
+  letter-spacing: $ls-wide;
+  text-align: center;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color $transition-base;
+
+  &:hover {
+    color: $color-ink;
+  }
+}

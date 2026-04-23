@@ -1,0 +1,83 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.card {
+  // Stagger animation handled by Framer Motion whileInView in the component
+}
+
+.inner {
+  display: block;
+  cursor: pointer;
+
+  &:hover .info .name {
+    color: $color-gold-dark;
+  }
+}
+
+// ── Image ─────────────────────────────────────────────────────────────────
+.imageWrap {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  background: $color-cream-alt;
+  border-radius: $radius-sm;
+  margin-bottom: $sp-5;
+}
+
+.imageScale {
+  position: absolute;
+  inset: 0;
+}
+
+.image {
+  object-fit: cover;
+  object-position: center top;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(26, 24, 20, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: $z-raised;
+}
+
+.exploreLabel {
+  @include label-caps;
+  color: $color-white;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.6);
+  padding-bottom: 2px;
+}
+
+// ── Info ──────────────────────────────────────────────────────────────────
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: $sp-1;
+}
+
+.category {
+  @include label-caps;
+  font-size: 10px;
+  color: $color-gold;
+  letter-spacing: $ls-widest;
+}
+
+.name {
+  font-family: $font-serif;
+  font-size: $fs-lg;
+  font-weight: $fw-light;
+  color: $color-ink;
+  transition: color $transition-base;
+  line-height: 1.2;
+}
+
+.price {
+  font-family: $font-sans;
+  font-size: $fs-sm;
+  font-weight: $fw-medium;
+  color: $color-ink-muted;
+  margin-top: $sp-1;
+}

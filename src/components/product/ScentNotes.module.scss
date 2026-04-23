@@ -1,0 +1,98 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.wrapper {
+  padding-top: $sp-12;
+  border-top: 1px solid $color-cream-deep;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: $sp-4;
+  margin-bottom: $sp-8;
+}
+
+.title {
+  @include label-caps;
+  color: $color-ink;
+  white-space: nowrap;
+}
+
+.titleLine {
+  flex: 1;
+  height: 1px;
+  background: $color-gold;
+  transform-origin: left;
+}
+
+// ── Pyramid ────────────────────────────────────────────────────────────────
+.pyramid {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: $sp-6;
+  padding-left: $sp-8;
+}
+
+.connector {
+  position: absolute;
+  left: 0;
+  top: $sp-2;
+  bottom: $sp-2;
+  width: 1px;
+  background: linear-gradient(to bottom, $color-gold, rgba(184, 154, 94, 0.2));
+}
+
+// ── Group ──────────────────────────────────────────────────────────────────
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: $sp-3;
+}
+
+.groupLabel {
+  @include label-caps;
+  font-size: 10px;
+  color: $color-gold;
+  display: flex;
+  align-items: center;
+  gap: $sp-2;
+
+  &::before {
+    content: '';
+    display: block;
+    width: $sp-4;
+    height: 1px;
+    background: $color-gold;
+    position: relative;
+    left: -$sp-6;
+  }
+}
+
+// ── Pills ──────────────────────────────────────────────────────────────────
+.pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $sp-2;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  padding: $sp-1 $sp-3;
+  background: $color-cream-alt;
+  border: 1px solid $color-cream-deep;
+  border-radius: $radius-full;
+  font-family: $font-sans;
+  font-size: $fs-xs;
+  font-weight: $fw-medium;
+  color: $color-ink-muted;
+  letter-spacing: $ls-wide;
+  transition: border-color $transition-base, color $transition-base;
+
+  &:hover {
+    border-color: $color-gold;
+    color: $color-ink;
+  }
+}

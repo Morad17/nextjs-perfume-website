@@ -1,0 +1,55 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.bar {
+  display: flex;
+  align-items: center;
+  gap: $sp-2;
+  flex-wrap: wrap;
+}
+
+.pill {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: $sp-2;
+  padding: $sp-2 $sp-5;
+  border: 1px solid $color-cream-deep;
+  border-radius: $radius-full;
+  background: transparent;
+  font-family: $font-sans;
+  font-size: $fs-sm;
+  font-weight: $fw-medium;
+  color: $color-ink-muted;
+  cursor: pointer;
+  transition: color $transition-base, border-color $transition-base, background $transition-base;
+  white-space: nowrap;
+
+  &:hover:not(.active) {
+    border-color: $color-gold;
+    color: $color-ink;
+  }
+
+  &.active {
+    color: $color-ink;
+    border-color: transparent;
+    background: $color-cream-alt;
+  }
+}
+
+.count {
+  font-size: $fs-xs;
+  color: $color-gold;
+  font-weight: $fw-semibold;
+}
+
+// The sliding underline — positioned at the bottom of the pill
+.indicator {
+  position: absolute;
+  bottom: -1px;
+  left: $sp-4;
+  right: $sp-4;
+  height: 1px;
+  background: $color-gold;
+  border-radius: $radius-full;
+}

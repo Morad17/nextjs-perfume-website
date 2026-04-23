@@ -1,0 +1,287 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+// ── Empty state ─────────────────────────────────────────────────────────────
+.empty {
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: $color-cream;
+}
+
+.emptyInner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: $sp-4;
+  padding: $sp-8;
+}
+
+.emptyIcon {
+  font-size: 3.5rem;
+  color: $color-cream-deep;
+  line-height: 1;
+}
+
+.emptyTitle {
+  font-family: $font-serif;
+  font-size: $fs-2xl;
+  font-weight: $fw-light;
+  color: $color-ink;
+}
+
+.emptySub {
+  font-family: $font-sans;
+  font-size: $fs-sm;
+  color: $color-ink-muted;
+  max-width: 30ch;
+  line-height: 1.6;
+}
+
+.shopLink {
+  @include label-caps;
+  color: $color-gold;
+  margin-top: $sp-2;
+  transition: color $transition-base;
+
+  &:hover {
+    color: $color-gold-dark;
+  }
+}
+
+// ── Page ────────────────────────────────────────────────────────────────────
+.page {
+  min-height: 100vh;
+  background: $color-cream;
+  padding: $sp-24 $sp-6 $sp-16;
+}
+
+.container {
+  @include container;
+  max-width: 960px;
+}
+
+// ── Header ──────────────────────────────────────────────────────────────────
+.header {
+  margin-bottom: $sp-10;
+}
+
+.title {
+  @include heading-serif;
+  font-size: $fs-2xl;
+  font-weight: $fw-light;
+  color: $color-ink;
+  margin-bottom: $sp-2;
+}
+
+.subtitle {
+  font-family: $font-sans;
+  font-size: $fs-sm;
+  color: $color-ink-muted;
+}
+
+// ── Layout ──────────────────────────────────────────────────────────────────
+.layout {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: $sp-10;
+  align-items: start;
+
+  @include responsive(md) {
+    grid-template-columns: 1fr;
+  }
+}
+
+// ── Items ────────────────────────────────────────────────────────────────────
+.itemsSection {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: $sp-5;
+  padding: $sp-5 0;
+  border-bottom: 1px solid $color-cream-deep;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.imageWrap {
+  position: relative;
+  width: 80px;
+  height: 96px;
+  flex-shrink: 0;
+  border-radius: $radius-sm;
+  overflow: hidden;
+  background: $color-cream-alt;
+}
+
+.image {
+  object-fit: cover;
+  object-position: center top;
+}
+
+.itemDetails {
+  flex: 1;
+}
+
+.itemName {
+  font-family: $font-serif;
+  font-size: $fs-base;
+  font-weight: $fw-light;
+  color: $color-ink;
+  margin-bottom: 4px;
+}
+
+.itemMeta {
+  font-family: $font-sans;
+  font-size: $fs-xs;
+  color: $color-ink-muted;
+}
+
+.itemPrice {
+  font-family: $font-serif;
+  font-size: $fs-lg;
+  font-weight: $fw-light;
+  color: $color-ink;
+  white-space: nowrap;
+}
+
+// ── Summary card ────────────────────────────────────────────────────────────
+.summary {
+  position: sticky;
+  top: $sp-24;
+}
+
+.summaryCard {
+  background: $color-white;
+  border: 1px solid $color-cream-deep;
+  border-radius: $radius-md;
+  padding: $sp-6;
+  display: flex;
+  flex-direction: column;
+  gap: $sp-4;
+}
+
+.summaryTitle {
+  font-family: $font-sans;
+  font-size: $fs-xs;
+  font-weight: $fw-semibold;
+  text-transform: uppercase;
+  letter-spacing: $ls-widest;
+  color: $color-ink-muted;
+  margin-bottom: $sp-1;
+}
+
+.summaryRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-family: $font-sans;
+  font-size: $fs-sm;
+  color: $color-ink;
+
+  &.total {
+    font-weight: $fw-semibold;
+    font-size: $fs-base;
+  }
+}
+
+.muted {
+  color: $color-ink-muted;
+  font-size: $fs-xs;
+}
+
+.divider {
+  height: 1px;
+  background: $color-cream-deep;
+  margin: $sp-1 0;
+}
+
+.error {
+  font-family: $font-sans;
+  font-size: $fs-xs;
+  color: $color-error;
+  background: rgba(192, 57, 43, 0.06);
+  border: 1px solid rgba(192, 57, 43, 0.2);
+  border-radius: $radius-sm;
+  padding: $sp-3;
+  line-height: 1.5;
+}
+
+.checkoutBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 52px;
+  background: $color-ink;
+  color: $color-white;
+  font-family: $font-sans;
+  font-size: $fs-sm;
+  font-weight: $fw-semibold;
+  letter-spacing: $ls-wider;
+  text-transform: uppercase;
+  border-radius: $radius-sm;
+  position: relative;
+  overflow: hidden;
+  transition: background $transition-luxury;
+  cursor: pointer;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.07), transparent);
+    transform: translateX(-100%);
+    transition: transform 0.6s ease;
+  }
+
+  &:hover:not(:disabled) {
+    background: $color-gold-dark;
+
+    &::after {
+      transform: translateX(100%);
+    }
+  }
+
+  &:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+}
+
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: $color-white;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.continueLink {
+  font-family: $font-sans;
+  font-size: $fs-xs;
+  font-weight: $fw-medium;
+  color: $color-ink-muted;
+  letter-spacing: $ls-wide;
+  text-align: center;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color $transition-base;
+
+  &:hover {
+    color: $color-ink;
+  }
+}

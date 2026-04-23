@@ -1,0 +1,23 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.shopClient {
+  display: flex;
+  flex-direction: column;
+  gap: $sp-10;
+}
+
+.filterRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $sp-6;
+  flex-wrap: wrap;
+}
+
+.resultCount {
+  font-family: $font-sans;
+  font-size: $fs-sm;
+  color: $color-ink-muted;
+  white-space: nowrap;
+}

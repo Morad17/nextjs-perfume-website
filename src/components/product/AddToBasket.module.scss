@@ -1,0 +1,188 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: $sp-6;
+}
+
+.label {
+  @include label-caps;
+  font-size: 10px;
+  color: $color-ink-muted;
+  display: block;
+  margin-bottom: $sp-3;
+}
+
+// ── Size selector ──────────────────────────────────────────────────────────
+.sizeSection {
+  // label + sizes group
+}
+
+.sizes {
+  display: flex;
+  gap: $sp-3;
+  flex-wrap: wrap;
+}
+
+.sizeBtn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: $sp-3 $sp-5;
+  border: 1px solid $color-cream-deep;
+  border-radius: $radius-sm;
+  background: $color-white;
+  cursor: pointer;
+  transition: border-color $transition-base, background $transition-base;
+
+  &:hover:not(.sizeActive) {
+    border-color: $color-gold;
+  }
+
+  &.sizeActive {
+    border-color: $color-gold;
+    background: rgba(184, 154, 94, 0.06);
+  }
+}
+
+.sizeMl {
+  font-family: $font-sans;
+  font-size: $fs-sm;
+  font-weight: $fw-semibold;
+  color: $color-ink;
+}
+
+.sizePrice {
+  font-family: $font-sans;
+  font-size: $fs-xs;
+  color: $color-ink-muted;
+}
+
+// ── Quantity ───────────────────────────────────────────────────────────────
+.quantitySection {
+  // label + control group
+}
+
+.quantityControl {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid $color-cream-deep;
+  border-radius: $radius-sm;
+  overflow: hidden;
+}
+
+.qtyBtn {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: $fs-lg;
+  font-weight: $fw-light;
+  color: $color-ink-muted;
+  background: $color-cream-alt;
+  transition: background $transition-base, color $transition-base;
+
+  &:hover {
+    background: $color-cream-deep;
+    color: $color-ink;
+  }
+}
+
+.qtyValue {
+  width: 48px;
+  text-align: center;
+  font-family: $font-sans;
+  font-size: $fs-base;
+  font-weight: $fw-medium;
+  color: $color-ink;
+}
+
+// ── Total ──────────────────────────────────────────────────────────────────
+.total {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: $sp-4 0;
+  border-top: 1px solid $color-cream-deep;
+  border-bottom: 1px solid $color-cream-deep;
+}
+
+.totalLabel {
+  font-family: $font-sans;
+  font-size: $fs-sm;
+  color: $color-ink-muted;
+  text-transform: uppercase;
+  letter-spacing: $ls-wider;
+}
+
+.totalPrice {
+  font-family: $font-serif;
+  font-size: $fs-xl;
+  font-weight: $fw-light;
+  color: $color-ink;
+}
+
+// ── Add button ─────────────────────────────────────────────────────────────
+.addBtn {
+  position: relative;
+  width: 100%;
+  height: 56px;
+  background: $color-ink;
+  color: $color-white;
+  border-radius: $radius-sm;
+  font-family: $font-sans;
+  font-size: $fs-sm;
+  font-weight: $fw-semibold;
+  letter-spacing: $ls-wider;
+  text-transform: uppercase;
+  overflow: hidden;
+  transition: background $transition-luxury;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.07), transparent);
+    transform: translateX(-100%);
+    transition: transform 0.6s ease;
+  }
+
+  &:hover:not(:disabled)::after {
+    transform: translateX(100%);
+  }
+
+  &:hover:not(:disabled) {
+    background: $color-gold-dark;
+  }
+
+  &:disabled {
+    background: $color-cream-deep;
+    color: $color-ink-muted;
+    cursor: not-allowed;
+  }
+
+  &.addedBtn {
+    background: #3d8a57;
+  }
+}
+
+.btnText {
+  display: block;
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+// ── Stock warning ──────────────────────────────────────────────────────────
+.stockWarning {
+  font-family: $font-sans;
+  font-size: $fs-xs;
+  color: $color-error;
+  text-align: center;
+}

@@ -1,0 +1,104 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+@keyframes shimmer {
+  0%   { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+
+%skeleton {
+  background: linear-gradient(
+    90deg,
+    $color-cream-alt 25%,
+    $color-cream-deep 50%,
+    $color-cream-alt 75%
+  );
+  background-size: 800px 100%;
+  animation: shimmer 1.4s ease-in-out infinite;
+  border-radius: $radius-sm;
+}
+
+.page {
+  min-height: 100vh;
+  background: $color-cream;
+  padding: $sp-24 $sp-6;
+}
+
+.layout {
+  @include container;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: $sp-16;
+  align-items: start;
+
+  @include responsive(md) {
+    grid-template-columns: 1fr;
+    gap: $sp-8;
+  }
+}
+
+.imageCol {}
+
+.mainImage {
+  @extend %skeleton;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  border-radius: $radius-md;
+}
+
+.infoCol {
+  display: flex;
+  flex-direction: column;
+  gap: $sp-5;
+  padding-top: $sp-4;
+}
+
+.line {
+  @extend %skeleton;
+}
+
+.lineCategory {
+  height: 12px;
+  width: 90px;
+}
+
+.lineName {
+  height: 52px;
+  width: 85%;
+  border-radius: $radius-md;
+}
+
+.linePrice {
+  height: 28px;
+  width: 100px;
+}
+
+.divider {
+  height: 1px;
+  background: $color-cream-deep;
+  margin: $sp-2 0;
+}
+
+.lineDesc1 { height: 16px; width: 100%; }
+.lineDesc2 { height: 16px; width: 90%; }
+.lineDesc3 { height: 16px; width: 75%; }
+
+.sizes {
+  display: flex;
+  gap: $sp-3;
+}
+
+.sizePill {
+  @extend %skeleton;
+  width: 72px;
+  height: 44px;
+  border-radius: $radius-sm;
+}
+
+.addBtn {
+  @extend %skeleton;
+  height: 56px;
+  width: 100%;
+  border-radius: $radius-sm;
+  margin-top: $sp-2;
+}

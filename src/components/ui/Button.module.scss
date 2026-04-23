@@ -1,0 +1,120 @@
+@use '../../styles/variables' as *;
+
+.btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: $radius-sm;
+  font-family: $font-sans;
+  font-weight: $fw-semibold;
+  letter-spacing: $ls-wider;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background $transition-luxury, color $transition-luxury,
+    border-color $transition-luxury, box-shadow $transition-luxury;
+
+  &:active:not(:disabled) {
+    transform: scale(0.98);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  &.fullWidth {
+    width: 100%;
+  }
+}
+
+// ── Shimmer overlay ─────────────────────────────────────────────────────────
+.shimmer {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.1) 50%,
+    transparent 100%
+  );
+  transform: translateX(-100%);
+  transition: transform 0.65s ease;
+  pointer-events: none;
+}
+
+.btn:hover:not(:disabled) .shimmer {
+  transform: translateX(100%);
+}
+
+.inner {
+  position: relative;
+  z-index: 1;
+}
+
+// ── Variants ────────────────────────────────────────────────────────────────
+.primary {
+  background: $color-ink;
+  color: $color-white;
+  border: 2px solid $color-ink;
+
+  &:hover:not(:disabled) {
+    background: $color-gold-dark;
+    border-color: $color-gold-dark;
+  }
+}
+
+.ghost {
+  background: transparent;
+  color: $color-gold;
+  border: 2px solid transparent;
+
+  &:hover:not(:disabled) {
+    color: $color-gold-dark;
+  }
+}
+
+.outline {
+  background: transparent;
+  color: $color-ink;
+  border: 2px solid $color-ink;
+
+  &:hover:not(:disabled) {
+    background: $color-ink;
+    color: $color-white;
+  }
+}
+
+// ── Sizes ────────────────────────────────────────────────────────────────────
+.sm {
+  height: 40px;
+  padding: 0 1.25rem;
+  font-size: $fs-xs;
+}
+
+.md {
+  height: 52px;
+  padding: 0 2rem;
+  font-size: $fs-sm;
+}
+
+.lg {
+  height: 60px;
+  padding: 0 2.5rem;
+  font-size: $fs-base;
+}
+
+// ── Loading spinner ──────────────────────────────────────────────────────────
+.spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: currentColor;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}

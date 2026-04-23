@@ -1,0 +1,138 @@
+@use '../../styles/variables' as *;
+
+.item {
+  display: flex;
+  gap: $sp-4;
+  padding: $sp-4 0;
+  border-bottom: 1px solid $color-cream-deep;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+// ── Thumbnail ──────────────────────────────────────────────────────────────
+.imageWrap {
+  position: relative;
+  width: 72px;
+  height: 88px;
+  flex-shrink: 0;
+  border-radius: $radius-sm;
+  overflow: hidden;
+  background: $color-cream-alt;
+}
+
+.image {
+  object-fit: cover;
+  object-position: center top;
+}
+
+// ── Details ────────────────────────────────────────────────────────────────
+.details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-width: 0;
+}
+
+.top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: $sp-2;
+}
+
+.name {
+  font-family: $font-serif;
+  font-size: $fs-base;
+  font-weight: $fw-light;
+  color: $color-ink;
+  line-height: 1.3;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.size {
+  font-family: $font-sans;
+  font-size: $fs-xs;
+  color: $color-ink-muted;
+  margin-top: 2px;
+}
+
+.removeBtn {
+  font-size: $fs-lg;
+  font-weight: $fw-light;
+  color: $color-ink-muted;
+  line-height: 1;
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: $radius-sm;
+  transition: color $transition-base, background $transition-base;
+
+  &:hover {
+    color: $color-error;
+    background: rgba(192, 57, 43, 0.08);
+  }
+}
+
+.bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+// ── Quantity ───────────────────────────────────────────────────────────────
+.qty {
+  display: flex;
+  align-items: center;
+  gap: $sp-2;
+  border: 1px solid $color-cream-deep;
+  border-radius: $radius-sm;
+  overflow: hidden;
+}
+
+.qtyBtn {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: $fs-base;
+  font-weight: $fw-light;
+  color: $color-ink-muted;
+  background: $color-cream-alt;
+  transition: background $transition-base, color $transition-base;
+
+  &:hover:not(:disabled) {
+    background: $color-cream-deep;
+    color: $color-ink;
+  }
+
+  &:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+}
+
+.qtyNum {
+  width: 28px;
+  text-align: center;
+  font-family: $font-sans;
+  font-size: $fs-sm;
+  font-weight: $fw-medium;
+  color: $color-ink;
+}
+
+// ── Price ──────────────────────────────────────────────────────────────────
+.price {
+  font-family: $font-serif;
+  font-size: $fs-base;
+  font-weight: $fw-light;
+  color: $color-ink;
+}

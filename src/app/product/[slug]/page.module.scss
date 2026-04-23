@@ -1,0 +1,139 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+.page {
+  min-height: 100vh;
+  padding-top: $navbar-height;
+}
+
+.inner {
+  @include container;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: $sp-16;
+  padding-top: $sp-12;
+  padding-bottom: $sp-32;
+  align-items: start;
+
+  @include responsive(md) {
+    grid-template-columns: 1fr;
+    gap: $sp-8;
+  }
+}
+
+// ── Image side ────────────────────────────────────────────────────────────
+.imageSide {
+  @media (min-width: #{$bp-md + 1px}) {
+    position: sticky;
+    top: calc($navbar-height + $sp-8);
+  }
+}
+
+.sticky {
+  display: flex;
+  flex-direction: column;
+  gap: $sp-5;
+}
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: $sp-2;
+  font-family: $font-sans;
+  font-size: $fs-xs;
+  color: $color-ink-muted;
+
+  a {
+    transition: color $transition-base;
+
+    &:hover {
+      color: $color-gold;
+    }
+  }
+
+  span {
+    opacity: 0.4;
+  }
+}
+
+.imageWrap {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  border-radius: $radius-md;
+  background: $color-cream-alt;
+}
+
+.imageInner {
+  position: absolute;
+  inset: 0;
+  transition: transform 0.6s ease;
+
+  .imageWrap:hover & {
+    transform: scale(1.04);
+  }
+}
+
+.image {
+  object-fit: cover;
+  object-position: center top;
+}
+
+.categoryBadge {
+  position: absolute;
+  top: $sp-4;
+  left: $sp-4;
+  @include label-caps;
+  font-size: 10px;
+  color: $color-ink;
+  background: rgba(250, 247, 242, 0.9);
+  backdrop-filter: blur(8px);
+  border: 1px solid $color-cream-deep;
+  padding: $sp-1 $sp-3;
+  border-radius: $radius-full;
+}
+
+// ── Info side ─────────────────────────────────────────────────────────────
+.infoSide {
+  display: flex;
+  flex-direction: column;
+  gap: $sp-8;
+  padding-top: $sp-10;
+
+  @include responsive(md) {
+    padding-top: 0;
+  }
+}
+
+.productHeader {
+  display: flex;
+  flex-direction: column;
+  gap: $sp-2;
+}
+
+.name {
+  @include heading-serif;
+  font-size: clamp($fs-2xl, 4vw, $fs-3xl);
+  color: $color-ink;
+  line-height: 1.1;
+}
+
+.tagline {
+  @include label-caps;
+  color: $color-gold;
+}
+
+.divider {
+  width: 40px;
+  height: 1px;
+  background: $color-gold;
+  margin: -$sp-4 0;
+}
+
+.description {
+  font-family: $font-serif;
+  font-size: $fs-md;
+  font-style: italic;
+  color: $color-ink-muted;
+  line-height: 1.75;
+}

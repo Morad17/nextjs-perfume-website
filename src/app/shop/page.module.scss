@@ -1,0 +1,47 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.page {
+  min-height: 100vh;
+}
+
+// ── Header ────────────────────────────────────────────────────────────────
+.header {
+  background: $color-cream-alt;
+  border-bottom: 1px solid $color-cream-deep;
+  padding: calc($navbar-height + $sp-16) 0 $sp-16;
+}
+
+.headerInner {
+  @include container;
+  display: flex;
+  flex-direction: column;
+  gap: $sp-4;
+}
+
+.eyebrow {
+  @include label-caps;
+  color: $color-gold;
+}
+
+.title {
+  @include heading-serif;
+  font-size: clamp($fs-2xl, 5vw, $fs-3xl);
+  color: $color-ink;
+}
+
+.subtitle {
+  font-family: $font-serif;
+  font-size: $fs-md;
+  font-style: italic;
+  color: $color-ink-muted;
+}
+
+// ── Content ───────────────────────────────────────────────────────────────
+.content {
+  padding: $sp-16 0 $sp-32;
+}
+
+.contentInner {
+  @include container;
+}
