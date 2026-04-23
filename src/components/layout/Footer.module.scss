@@ -1,0 +1,115 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.footer {
+  background: $color-cream-alt;
+  border-top: 1px solid $color-cream-deep;
+  margin-top: $sp-32;
+}
+
+.inner {
+  @include container;
+  padding-top: $sp-16;
+  padding-bottom: $sp-8;
+}
+
+.top {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: $sp-16;
+  padding-bottom: $sp-12;
+  border-bottom: 1px solid $color-cream-deep;
+
+  @include responsive(md) {
+    grid-template-columns: 1fr;
+    gap: $sp-10;
+  }
+}
+
+.brand {
+  display: flex;
+  flex-direction: column;
+  gap: $sp-4;
+}
+
+.logo {
+  font-family: $font-display;
+  font-size: $fs-sm;
+  font-weight: $fw-semibold;
+  letter-spacing: $ls-widest;
+  text-transform: uppercase;
+  color: $color-ink;
+}
+
+.tagline {
+  font-family: $font-serif;
+  font-size: $fs-md;
+  font-style: italic;
+  color: $color-ink-muted;
+  max-width: 340px;
+  line-height: 1.6;
+}
+
+.links {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: $sp-8;
+}
+
+.linkGroup {
+  display: flex;
+  flex-direction: column;
+  gap: $sp-3;
+
+  a {
+    font-family: $font-sans;
+    font-size: $fs-sm;
+    color: $color-ink-muted;
+    transition: color $transition-base;
+
+    &:hover {
+      color: $color-gold;
+    }
+  }
+}
+
+.groupTitle {
+  @include label-caps;
+  color: $color-ink;
+  margin-bottom: $sp-1;
+}
+
+.bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: $sp-6;
+  gap: $sp-4;
+
+  @include responsive(sm) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+.copy {
+  font-family: $font-sans;
+  font-size: $fs-xs;
+  color: $color-ink-muted;
+}
+
+.legal {
+  display: flex;
+  gap: $sp-6;
+
+  a {
+    font-family: $font-sans;
+    font-size: $fs-xs;
+    color: $color-ink-muted;
+    transition: color $transition-base;
+
+    &:hover {
+      color: $color-gold;
+    }
+  }
+}

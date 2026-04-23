@@ -1,0 +1,186 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: $z-navbar;
+  padding: $sp-4 0;
+  transition: background $transition-luxury, box-shadow $transition-luxury, padding $transition-luxury;
+
+  &.scrolled {
+    background: rgba(250, 247, 242, 0.92);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    box-shadow: 0 1px 0 $color-cream-deep;
+    padding: $sp-3 0;
+  }
+}
+
+.inner {
+  @include container;
+  @include flex-between;
+  gap: $sp-8;
+}
+
+.logo {
+  font-family: $font-display;
+  font-size: $fs-sm;
+  font-weight: $fw-semibold;
+  letter-spacing: $ls-widest;
+  text-transform: uppercase;
+  color: $color-ink;
+  white-space: nowrap;
+  transition: color $transition-base;
+
+  &:hover {
+    color: $color-gold;
+  }
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: $sp-10;
+
+  @include responsive(md) {
+    display: none;
+  }
+}
+
+.navLink {
+  @include label-caps;
+  color: $color-ink-muted;
+  position: relative;
+  transition: color $transition-base;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: $color-gold;
+    transition: width $transition-luxury;
+  }
+
+  &:hover,
+  &.active {
+    color: $color-ink;
+
+    &::after {
+      width: 100%;
+    }
+  }
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: $sp-4;
+}
+
+.basketBtn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: $radius-full;
+  color: $color-ink;
+  transition: color $transition-base, background $transition-base;
+
+  &:hover {
+    color: $color-gold;
+    background: $color-cream-alt;
+  }
+}
+
+.badge {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 $sp-1;
+  background: $color-gold;
+  color: $color-white;
+  font-family: $font-sans;
+  font-size: 10px;
+  font-weight: $fw-semibold;
+  border-radius: $radius-full;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+// ── Hamburger ─────────────────────────────────────────────────────────────
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 32px;
+  height: 32px;
+  padding: 4px;
+
+  @include responsive(md) {
+    display: flex;
+  }
+}
+
+.bar {
+  display: block;
+  width: 100%;
+  height: 1px;
+  background: $color-ink;
+  transition: transform $transition-base, opacity $transition-base;
+  transform-origin: center;
+
+  &:nth-child(1).open {
+    transform: translateY(6px) rotate(45deg);
+  }
+  &:nth-child(2).open {
+    opacity: 0;
+    transform: scaleX(0);
+  }
+  &:nth-child(3).open {
+    transform: translateY(-6px) rotate(-45deg);
+  }
+}
+
+// ── Mobile menu ────────────────────────────────────────────────────────────
+.mobileMenu {
+  background: rgba(250, 247, 242, 0.97);
+  backdrop-filter: blur(16px);
+
+  @media (min-width: #{$bp-md + 1px}) {
+    display: none;
+  }
+}
+
+.mobileLinks {
+  @include container;
+  display: flex;
+  flex-direction: column;
+  gap: $sp-1;
+  padding-top: $sp-4;
+  padding-bottom: $sp-6;
+}
+
+.mobileLink {
+  @include label-caps;
+  color: $color-ink-muted;
+  padding: $sp-3 0;
+  border-bottom: 1px solid $color-cream-deep;
+  transition: color $transition-base;
+
+  &:hover {
+    color: $color-gold;
+  }
+}

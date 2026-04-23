@@ -1,5 +1,9 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Montserrat, Cinzel } from "next/font/google";
+import { BasketProvider } from "@/context/BasketContext";
+import Navbar from "@/components/layout/Navbar";
+import Footer from "@/components/layout/Footer";
+import PageTransition from "@/components/ui/PageTransition";
 import "./globals.scss";
 
 const cormorant = Cormorant_Garamond({
@@ -43,7 +47,15 @@ export default function RootLayout({
       lang="en"
       className={`${cormorant.variable} ${montserrat.variable} ${cinzel.variable}`}
     >
-      <body>{children}</body>
+      <body>
+        <BasketProvider>
+          <Navbar />
+          <PageTransition>
+            {children}
+          </PageTransition>
+          <Footer />
+        </BasketProvider>
+      </body>
     </html>
   );
 }
