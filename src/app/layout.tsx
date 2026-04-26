@@ -31,8 +31,8 @@ const cinzel = Cinzel({
 
 export const metadata: Metadata = {
   title: {
-    default: "Maison Lumière — Luxury Perfumery",
-    template: "%s | Maison Lumière",
+    default: "Jauhar Oud — Luxury Perfumery",
+    template: "%s | Jauhar Oud",
   },
   description:
     "Rare, handcrafted fragrances for those who seek the extraordinary. Discover the Maison Lumière collection.",
@@ -56,7 +56,9 @@ export const metadata: Metadata = {
     title: "Maison Lumière — Luxury Perfumery",
     description:
       "Rare, handcrafted fragrances for those who seek the extraordinary.",
-    images: ["https://images.unsplash.com/photo-1594035910387-fea47794261f?w=1200&q=85"],
+    images: [
+      "https://images.unsplash.com/photo-1594035910387-fea47794261f?w=1200&q=85",
+    ],
   },
 };
 
@@ -73,9 +75,7 @@ export default function RootLayout({
       <body>
         <BasketProvider>
           <Navbar />
-          <PageTransition>
-            {children}
-          </PageTransition>
+          <PageTransition>{children}</PageTransition>
           <Footer />
           <BasketDrawer />
         </BasketProvider>

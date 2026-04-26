@@ -1,5 +1,5 @@
-@use '../../styles/variables' as *;
-@use '../../styles/mixins' as *;
+@use "../../styles/variables" as *;
+@use "../../styles/mixins" as *;
 
 .navbar {
   position: fixed;
@@ -8,7 +8,10 @@
   right: 0;
   z-index: $z-navbar;
   padding: $sp-4 0;
-  transition: background $transition-luxury, box-shadow $transition-luxury, padding $transition-luxury;
+  transition:
+    background $transition-luxury,
+    box-shadow $transition-luxury,
+    padding $transition-luxury;
 
   &.scrolled {
     background: rgba(250, 247, 242, 0.92);
@@ -39,6 +42,11 @@
     color: $color-gold;
   }
 }
+.logoGroup {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
 
 .nav {
   display: flex;
@@ -57,7 +65,7 @@
   transition: color $transition-base;
 
   &::after {
-    content: '';
+    content: "";
     position: absolute;
     bottom: -3px;
     left: 0;
@@ -92,7 +100,9 @@
   height: 40px;
   border-radius: $radius-full;
   color: $color-ink;
-  transition: color $transition-base, background $transition-base;
+  transition:
+    color $transition-base,
+    background $transition-base;
 
   &:hover {
     color: $color-gold;
@@ -139,7 +149,9 @@
   width: 100%;
   height: 1px;
   background: $color-ink;
-  transition: transform $transition-base, opacity $transition-base;
+  transition:
+    transform $transition-base,
+    opacity $transition-base;
   transform-origin: center;
 
   &:nth-child(1).open {

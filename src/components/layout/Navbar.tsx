@@ -6,10 +6,11 @@ import { motion, useScroll, useMotionValueEvent } from "framer-motion";
 import { useState } from "react";
 import { useBasket } from "@/context/BasketContext";
 import styles from "./Navbar.module.scss";
+import Image from "next/image";
 
 const navLinks = [
   { href: "/shop", label: "Collection" },
-  { href: "/about", label: "Maison" },
+  { href: "/about", label: "Jauhar perfumes" },
 ];
 
 export default function Navbar() {
@@ -32,8 +33,39 @@ export default function Navbar() {
     >
       <div className={styles.inner}>
         {/* Logo */}
-        <Link href="/" className={styles.logo} onClick={() => setMenuOpen(false)}>
-          Maison Lumière
+        <Link
+          href="/"
+          className={styles.logo}
+          onClick={() => setMenuOpen(false)}
+        >
+          <div className={styles.logoGroup}>
+            <div style={{ overflow: "hidden" }}>
+              <motion.div
+                initial={{ x: "100%" }}
+                animate={{ x: 0 }}
+                transition={{
+                  duration: 1.5,
+                  ease: [0.22, 1, 0.36, 1],
+                  delay: 0.2,
+                }}
+                style={{ display: "flex" }}
+              >
+                <Image
+                  src={"/images/logo/jauhar-logo-text.png"}
+                  alt="Jauhar Logo"
+                  width={96}
+                  height={20}
+                  style={{ height: "20px" }}
+                />
+              </motion.div>
+            </div>
+            <Image
+              src={"/images/logo/jauhar-logo-ico.png"}
+              alt="Jauhar Logo"
+              width={48}
+              height={48}
+            />
+          </div>
         </Link>
 
         {/* Desktop nav */}
@@ -87,7 +119,9 @@ export default function Navbar() {
       <motion.div
         className={styles.mobileMenu}
         initial={false}
-        animate={menuOpen ? { height: "auto", opacity: 1 } : { height: 0, opacity: 0 }}
+        animate={
+          menuOpen ? { height: "auto", opacity: 1 } : { height: 0, opacity: 0 }
+        }
         transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
         style={{ overflow: "hidden" }}
       >
@@ -110,7 +144,16 @@ export default function Navbar() {
 
 function BasketIcon() {
   return (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <svg
+      width="22"
+      height="22"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
       <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
       <line x1="3" y1="6" x2="21" y2="6" />
       <path d="M16 10a4 4 0 01-8 0" />

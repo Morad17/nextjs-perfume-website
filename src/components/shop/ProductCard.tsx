@@ -45,7 +45,7 @@ export default function ProductCard({
             }}
           >
             <Image
-              src={product.imageUrl}
+              src={`/images/products/${product.imageUrl}`}
               alt={product.imageAlt}
               fill
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
