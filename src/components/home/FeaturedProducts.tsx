@@ -1,7 +1,8 @@
 import { prisma } from "@/lib/prisma";
-import ProductCard from "@/components/shop/ProductCard";
+import FeaturedShowcase from "./FeaturedShowcase";
 import type { Product } from "@/types/product";
-import styles from "./FeaturedProducts.module.scss";
+
+const SCENE_SLUGS = new Set(["dukhan-al-arz", "wardat-al-jabal", "zahr-al-lemon"]);
 
 export default async function FeaturedProducts() {
   const raw = await prisma.product.findMany({
@@ -10,38 +11,9 @@ export default async function FeaturedProducts() {
   });
 
   const products = raw as unknown as Product[];
+  const showcaseProducts = products.filter((p) => SCENE_SLUGS.has(p.slug));
 
-  return (
-    <section className={styles.section}>
-      <div className={styles.inner}>
-        {/* Heading */}
-        <div className={styles.heading}>
-          <span className={styles.eyebrow}>The Collection</span>
-          <h2 className={styles.title}>Featured Fragrances</h2>
-          <p className={styles.subtitle}>
-            Curated selections from our most celebrated works.
-          </p>
-        </div>
+  if (showcaseProducts.length === 0) return null;
 
-        {/* Grid */}
-        <div className={styles.grid}>
-          {products.map((product, i) => (
-            <ProductCard
-              key={product.id}
-              product={product}
-              priority={i < 2}
-            />
-          ))}
-        </div>
-
-        {/* View all link */}
-        <div className={styles.footer}>
-          <a href="/shop" className={styles.viewAll}>
-            View entire collection
-            <span className={styles.arrow}>→</span>
-          </a>
-        </div>
-      </div>
-    </section>
-  );
+  return <FeaturedShowcase products={showcaseProducts} />;
 }
