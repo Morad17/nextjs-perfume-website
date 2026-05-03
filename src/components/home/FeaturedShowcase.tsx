@@ -2,152 +2,143 @@
 
 import {
   motion,
-  AnimatePresence,
-  useMotionValue,
-  useSpring,
+  useScroll,
   useTransform,
   useReducedMotion,
 } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { useState, useCallback } from "react";
+import { useRef } from "react";
 import type { Product } from "@/types/product";
+import SmokeCanvas from "./SmokeCanvas";
 import styles from "./FeaturedShowcase.module.scss";
 
-interface Props {
-  products: Product[];
-}
-
-const EASE = [0.22, 1, 0.36, 1] as const;
-
-const slideVariants = {
-  enter: (dir: number) => ({ opacity: 0, x: dir * 40 }),
-  center: {
-    opacity: 1,
-    x: 0,
-    transition: { duration: 0.9, ease: EASE },
-  },
-  exit: (dir: number) => ({
-    opacity: 0,
-    x: dir * -40,
-    transition: { duration: 0.5, ease: EASE },
-  }),
+// Smoke colour palettes keyed by product slug.
+// Add an entry here when a new product gets its 3-layer scenes.
+const SMOKE_COLORS: Record<string, { h: number; s: number; l: number }[]> = {
+  "wardat-al-jabal": [
+    { h: 272, s: 65, l: 68 }, // purple
+    { h: 250, s: 58, l: 74 }, // lavender
+    { h: 295, s: 52, l: 70 }, // violet
+    { h: 318, s: 48, l: 73 }, // dusty pink
+  ],
+  "dukhan-al-arz": [
+    { h: 25,  s: 55, l: 55 }, // amber
+    { h: 15,  s: 50, l: 50 }, // deep orange
+    { h: 40,  s: 45, l: 60 }, // warm gold
+  ],
+  "zahr-al-lemon": [
+    { h: 55,  s: 80, l: 72 }, // lemon yellow
+    { h: 35,  s: 70, l: 70 }, // golden
+    { h: 75,  s: 60, l: 68 }, // lime green
+  ],
 };
 
-export default function FeaturedShowcase({ products }: Props) {
+const DEFAULT_SMOKE = [{ h: 200, s: 50, l: 70 }];
+
+interface Props {
+  product: Product;
+}
+
+export default function FeaturedShowcase({ product }: Props) {
   const prefersReducedMotion = useReducedMotion();
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [direction, setDirection] = useState<number>(1);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const innerRef = useRef<HTMLDivElement>(null);
 
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end end"],
+  });
 
-  const springConfig = { stiffness: 60, damping: 20, mass: 1 };
-  const smoothX = useSpring(mouseX, springConfig);
-  const smoothY = useSpring(mouseY, springConfig);
-
-  const bgX = useTransform(smoothX, [-0.5, 0.5], [-30, 30]);
-  const bgY = useTransform(smoothY, [-0.5, 0.5], [-20, 20]);
-  const fgX = useTransform(smoothX, [-0.5, 0.5], [-70, 70]);
-  const fgY = useTransform(smoothY, [-0.5, 0.5], [-50, 50]);
-
-  const handleMouseMove = useCallback(
-    (e: React.MouseEvent<HTMLElement>) => {
-      if (prefersReducedMotion) return;
-      const rect = e.currentTarget.getBoundingClientRect();
-      mouseX.set((e.clientX - rect.left) / rect.width - 0.5);
-      mouseY.set((e.clientY - rect.top) / rect.height - 0.5);
-    },
-    [mouseX, mouseY, prefersReducedMotion]
+  // Each layer moves at a different rate — back slowest, front fastest
+  const scene3Y = useTransform(
+    scrollYProgress, [0, 1], prefersReducedMotion ? [0, 0] : [40,  -40],
+  );
+  const scene2Y = useTransform(
+    scrollYProgress, [0, 1], prefersReducedMotion ? [0, 0] : [100, -100],
+  );
+  const bottleY = useTransform(
+    scrollYProgress, [0, 1], prefersReducedMotion ? [0, 0] : [60,  -60],
+  );
+  const scene1Y = useTransform(
+    scrollYProgress, [0, 1], prefersReducedMotion ? [0, 0] : [160, -160],
   );
 
-  const handleMouseLeave = useCallback(() => {
-    mouseX.set(0);
-    mouseY.set(0);
-  }, [mouseX, mouseY]);
+  // Info fades in as you start scrolling
+  const infoOpacity = useTransform(scrollYProgress, [0, 0.18], [0, 1]);
+  const infoY      = useTransform(scrollYProgress, [0, 0.18], [24, 0]);
 
-  const goNext = useCallback(() => {
-    setDirection(1);
-    setActiveIndex((i) => (i + 1) % products.length);
-  }, [products.length]);
+  // Scroll cue fades out once scrolling begins
+  const cueOpacity = useTransform(scrollYProgress, [0, 0.12], [1, 0]);
 
-  const goPrev = useCallback(() => {
-    setDirection(-1);
-    setActiveIndex((i) => (i - 1 + products.length) % products.length);
-  }, [products.length]);
-
-  const handleKeyDown = useCallback(
-    (e: React.KeyboardEvent) => {
-      if (e.key === "ArrowRight" || e.key === "ArrowDown") goNext();
-      if (e.key === "ArrowLeft" || e.key === "ArrowUp") goPrev();
-    },
-    [goNext, goPrev]
-  );
-
-  const product = products[activeIndex];
-  const showNav = products.length > 1;
-
-  const bgStyle = prefersReducedMotion ? {} : { x: bgX, y: bgY };
-  const fgStyle = prefersReducedMotion ? {} : { x: fgX, y: fgY };
+  const smokeColors = SMOKE_COLORS[product.slug] ?? DEFAULT_SMOKE;
 
   return (
-    <section
-      className={styles.showcase}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      onKeyDown={handleKeyDown}
-      tabIndex={0}
-      aria-roledescription="carousel"
-      aria-label="Featured Fragrances"
-    >
-      {/* Image layers — whole slide transitions together */}
-      <AnimatePresence mode="wait" custom={direction}>
+    <div ref={containerRef} className={styles.stickyOuter}>
+      <div ref={innerRef} className={styles.stickyInner}>
+
+        {/* ── Scene layer 3: opaque background ──────────────────────── */}
+        <motion.div className={styles.layer} style={{ y: scene3Y, zIndex: 1 }}>
+          <Image
+            src={`/images/scenes/${product.slug}-3.png`}
+            alt=""
+            fill
+            sizes="100vw"
+            style={{ objectFit: "cover", objectPosition: "center" }}
+            priority
+          />
+        </motion.div>
+
+        {/* ── Scene layer 2: transparent mid-ground ─────────────────── */}
+        <motion.div className={styles.layer} style={{ y: scene2Y, zIndex: 2 }}>
+          <Image
+            src={`/images/scenes/${product.slug}-2.png`}
+            alt=""
+            fill
+            sizes="100vw"
+            style={{ objectFit: "cover", objectPosition: "center" }}
+            priority
+          />
+        </motion.div>
+
+        {/* ── Perfume bottle: centred, in front of mid-ground ─────────── */}
         <motion.div
-          key={product.id}
-          custom={direction}
-          variants={slideVariants}
-          initial="enter"
-          animate="center"
-          exit="exit"
-          className={styles.slidePair}
+          className={styles.bottleWrapper}
+          style={{ y: bottleY, zIndex: 3 }}
         >
-          <motion.div className={styles.bgLayer} style={bgStyle}>
-            <Image
-              src={`/images/scenes/${product.slug}-scene.png`}
-              alt=""
-              fill
-              sizes="100vw"
-              style={{ objectFit: "cover" }}
-              priority={activeIndex === 0}
-            />
-          </motion.div>
-
-          <div className={styles.bgOverlay} />
-
-          <motion.div className={styles.fgLayer} style={fgStyle}>
+          <div className={styles.bottle}>
             <Image
               src={`/images/products/${product.imageUrl}`}
               alt={product.imageAlt}
               fill
-              sizes="(max-width: 768px) 50vw, 30vw"
+              sizes="(max-width: 768px) 55vw, 25vw"
               style={{ objectFit: "contain", objectPosition: "bottom center" }}
-              priority={activeIndex === 0}
+              priority
             />
-          </motion.div>
+          </div>
         </motion.div>
-      </AnimatePresence>
 
-      {/* Info panel — animates independently from images */}
-      <AnimatePresence mode="wait">
+        {/* ── Scene layer 1: transparent foreground (over bottle) ───── */}
+        <motion.div className={styles.layer} style={{ y: scene1Y, zIndex: 4 }}>
+          <Image
+            src={`/images/scenes/${product.slug}-1.png`}
+            alt=""
+            fill
+            sizes="100vw"
+            style={{ objectFit: "cover", objectPosition: "center" }}
+            priority
+          />
+        </motion.div>
+
+        {/* ── Mouse smoke effect (above all image layers) ────────────── */}
+        {!prefersReducedMotion && (
+          <SmokeCanvas colors={smokeColors} targetRef={innerRef} />
+        )}
+
+        {/* ── Info overlay ───────────────────────────────────────────── */}
         <motion.div
-          key={`info-${product.id}`}
           className={styles.infoPanel}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -10 }}
-          transition={{ duration: 0.6, ease: EASE }}
-          aria-roledescription="slide"
-          aria-label={`${product.name}, ${activeIndex + 1} of ${products.length}`}
+          style={{ opacity: infoOpacity, y: infoY }}
         >
           <span className={styles.eyebrow}>{product.category}</span>
           <h2 className={styles.productName}>{product.name}</h2>
@@ -168,44 +159,14 @@ export default function FeaturedShowcase({ products }: Props) {
             Explore Fragrance <span className={styles.arrow}>→</span>
           </Link>
         </motion.div>
-      </AnimatePresence>
 
-      {showNav && (
-        <nav className={styles.arrowNav} aria-label="Carousel navigation">
-          <button
-            className={styles.arrowBtn}
-            onClick={goPrev}
-            aria-label="Previous fragrance"
-          >
-            ↑
-          </button>
-          <button
-            className={styles.arrowBtn}
-            onClick={goNext}
-            aria-label="Next fragrance"
-          >
-            ↓
-          </button>
-        </nav>
-      )}
+        {/* ── Scroll cue ─────────────────────────────────────────────── */}
+        <motion.div className={styles.scrollCue} style={{ opacity: cueOpacity }}>
+          <span className={styles.scrollLabel}>Scroll</span>
+          <span className={styles.scrollLine} />
+        </motion.div>
 
-      {showNav && (
-        <div className={styles.dotNav} role="tablist" aria-label="Slides">
-          {products.map((p, i) => (
-            <button
-              key={p.id}
-              role="tab"
-              aria-selected={i === activeIndex}
-              aria-label={`${p.name}, slide ${i + 1}`}
-              className={`${styles.dot}${i === activeIndex ? ` ${styles.dotActive}` : ""}`}
-              onClick={() => {
-                setDirection(i > activeIndex ? 1 : -1);
-                setActiveIndex(i);
-              }}
-            />
-          ))}
-        </div>
-      )}
-    </section>
+      </div>
+    </div>
   );
 }

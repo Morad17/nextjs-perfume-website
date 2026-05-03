@@ -1,95 +1,79 @@
 @use '../../styles/variables' as *;
 @use '../../styles/mixins' as *;
 
-// ── Section ───────────────────────────────────────────────────────────────
-.showcase {
+// ── Sticky scroll container ───────────────────────────────────────────────
+// Tall outer div drives the scroll progress; inner div sticks while layers move
+.stickyOuter {
+  height: 250vh;
   position: relative;
+}
+
+.stickyInner {
+  position: sticky;
+  top: 0;
   height: 100svh;
   min-height: 600px;
   overflow: hidden;
-  background: $color-ink;
-  outline: none;
-
-  &:focus-visible {
-    outline: 2px solid $color-gold;
-    outline-offset: -2px;
-  }
+  background: $color-ink; // shows if scene-3 hasn't loaded yet
 }
 
-// ── Slide pair (image layers) ─────────────────────────────────────────────
-.slidePair {
+// ── Parallax image layers ─────────────────────────────────────────────────
+// Each layer is oversized (inset: -22%) so parallax movement never reveals
+// empty edges. The sticky container's overflow: hidden clips the excess.
+.layer {
+  position: absolute;
+  inset: -22%;
+  will-change: transform;
+  pointer-events: none;
+}
+
+// ── Perfume bottle ────────────────────────────────────────────────────────
+// Wrapper fills the sticky pane and uses flex to centre the bottle without
+// CSS transform (which would conflict with Framer Motion's y motion value).
+.bottleWrapper {
   position: absolute;
   inset: 0;
-  z-index: 1;
-}
-
-.bgLayer {
-  position: absolute;
-  inset: -8%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
   will-change: transform;
 }
 
-.bgOverlay {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  background:
-    radial-gradient(
-      ellipse at 18% 100%,
-      rgba(26, 24, 20, 0.9) 0%,
-      rgba(26, 24, 20, 0.45) 45%,
-      transparent 75%
-    ),
-    linear-gradient(
-      to top,
-      rgba(26, 24, 20, 0.5) 0%,
-      transparent 40%
-    );
-}
-
-.fgLayer {
-  position: absolute;
-  right: 12%;
-  top: 5%;
-  bottom: 0;
-  width: 30vw;
-  max-width: 500px;
-  min-width: 180px;
-  will-change: transform;
-  z-index: 2;
+.bottle {
+  position: relative;
+  width: 22vw;
+  max-width: 360px;
+  min-width: 140px;
+  aspect-ratio: 0.45 / 1;
+  pointer-events: auto;
 
   @include responsive(md) {
-    right: 5%;
-    width: 40vw;
+    width: 36vw;
   }
 
   @include responsive(sm) {
-    right: 0;
-    left: 0;
-    width: 60vw;
-    margin: 0 auto;
-    top: auto;
-    bottom: 35%;
-    z-index: 1;
+    width: 52vw;
+    max-width: 240px;
   }
 }
 
-// ── Info panel ────────────────────────────────────────────────────────────
+// ── Info overlay ──────────────────────────────────────────────────────────
 .infoPanel {
   position: absolute;
   bottom: $sp-16;
   left: $sp-16;
-  max-width: 500px;
+  max-width: 460px;
   z-index: $z-raised;
 
   @include responsive(md) {
-    bottom: $sp-12;
+    bottom: $sp-10;
     left: $sp-8;
-    max-width: 380px;
+    max-width: 340px;
   }
 
   @include responsive(sm) {
-    bottom: $sp-20;
+    bottom: $sp-24;
     left: $sp-4;
     right: $sp-4;
     max-width: none;
@@ -108,7 +92,7 @@
   font-size: clamp($fs-2xl, 5vw, $fs-4xl);
   color: $color-white;
   margin-bottom: $sp-4;
-  text-shadow: 0 2px 20px rgba(26, 24, 20, 0.4);
+  text-shadow: 0 2px 24px rgba(26, 24, 20, 0.5);
 }
 
 .description {
@@ -181,80 +165,42 @@
   transition: transform $transition-base;
 }
 
-// ── Arrow navigation ──────────────────────────────────────────────────────
-.arrowNav {
+// ── Scroll cue ────────────────────────────────────────────────────────────
+.scrollCue {
   position: absolute;
-  right: $sp-8;
-  bottom: $sp-16;
+  bottom: $sp-10;
+  right: $sp-10;
   z-index: $z-raised;
   display: flex;
   flex-direction: column;
-  gap: $sp-2;
-
-  @include responsive(md) {
-    bottom: $sp-10;
-    right: $sp-6;
-  }
-
-  @include responsive(sm) {
-    bottom: $sp-8;
-    right: $sp-4;
-  }
-}
-
-.arrowBtn {
-  width: 44px;
-  height: 44px;
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  background: rgba(26, 24, 20, 0.45);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  color: $color-white;
-  font-size: $fs-base;
-  cursor: pointer;
-  display: flex;
   align-items: center;
-  justify-content: center;
-  transition: background $transition-base, border-color $transition-base, color $transition-base;
-
-  &:hover {
-    background: rgba(184, 154, 94, 0.2);
-    border-color: $color-gold;
-    color: $color-gold-light;
-  }
-}
-
-// ── Dot indicators ────────────────────────────────────────────────────────
-.dotNav {
-  position: absolute;
-  bottom: $sp-8;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: $z-raised;
-  display: flex;
   gap: $sp-3;
 
   @include responsive(sm) {
+    right: $sp-4;
     bottom: $sp-6;
   }
 }
 
-.dot {
-  width: 6px;
-  height: 6px;
-  border-radius: $radius-full;
-  background: rgba(255, 255, 255, 0.3);
-  border: none;
-  cursor: pointer;
-  padding: 0;
-  transition: background $transition-base, transform $transition-base;
-
-  &:hover {
-    background: rgba(255, 255, 255, 0.6);
-  }
+.scrollLabel {
+  @include label-caps;
+  font-size: $fs-xs;
+  color: rgba(255, 255, 255, 0.45);
+  writing-mode: vertical-rl;
+  letter-spacing: $ls-widest;
 }
 
-.dotActive {
-  background: $color-gold;
-  transform: scale(1.5);
+.scrollLine {
+  display: block;
+  width: 1px;
+  height: 48px;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.4), transparent);
+
+  // Animated pulse to draw attention
+  animation: scrollPulse 1.8s ease-in-out infinite;
+}
+
+@keyframes scrollPulse {
+  0%, 100% { opacity: 0.4; transform: scaleY(1); }
+  50%       { opacity: 1;   transform: scaleY(0.7); }
 }
