@@ -27,6 +27,13 @@
   pointer-events: none;
 }
 
+// Slideshow variant: fills the sticky pane exactly — no parallax, no oversizing
+.slideLayer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
 // ── Perfume bottle ────────────────────────────────────────────────────────
 // Wrapper fills the sticky pane and uses flex to centre the bottle without
 // CSS transform (which would conflict with Framer Motion's y motion value).

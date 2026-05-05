@@ -2,17 +2,22 @@ import { prisma } from "@/lib/prisma";
 import FeaturedShowcase from "./FeaturedShowcase";
 import type { Product } from "@/types/product";
 
-// Slug of the product to feature in the parallax showcase.
-// Swap this out once multi-layer scenes are ready for other products.
-const PARALLAX_SLUG = "wardat-al-jabal";
+const SCENE_SLUGS = [
+  "anbar-al-nil",
+  "dukhan-al-arz",
+  "ghamam",
+  "sahar-al-bahr",
+  "wardat-al-jabal",
+  "zahr-al-lemon",
+];
 
 export default async function FeaturedProducts() {
-  const raw = await prisma.product.findFirst({
-    where: { slug: PARALLAX_SLUG },
+  const raw = await prisma.product.findMany({
+    where: { slug: { in: SCENE_SLUGS } },
   });
 
-  if (!raw) return null;
+  if (!raw.length) return null;
 
-  const product = raw as unknown as Product;
-  return <FeaturedShowcase product={product} />;
+  const products = raw as unknown as Product[];
+  return <FeaturedShowcase products={products} />;
 }
